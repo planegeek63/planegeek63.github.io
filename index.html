@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Name</title>
+<meta name="description" content="Links to Your Name's email, LinkedIn, and YouTube channel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f3f0ff;
+    --ink: #1b1646;
+    --muted: #5b557f;
+    --accent: #ff5d73;
+    --orb1: #b9a8ff;
+    --orb2: #ffc2a8;
+    --orb3: #9fe3d4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17123a;
+      --ink: #f4f1ff;
+      --muted: #b4aedb;
+      --accent: #ff7a8c;
+      --orb1: #4a3aa8;
+      --orb2: #a34a5c;
+      --orb3: #1f7a73;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
+    display: grid;
+    place-items: center;
+    overflow-x: hidden;
+    padding: 2rem 1.25rem;
+  }
+
+  /* Drifting background shapes */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: .7;
+    z-index: 0;
+    animation: drift 18s ease-in-out infinite alternate;
+  }
+  .orb.a { width: 38vmax; height: 38vmax; background: var(--orb1); top: -10vmax; left: -8vmax; }
+  .orb.b { width: 30vmax; height: 30vmax; background: var(--orb2); bottom: -8vmax; right: -6vmax; animation-duration: 22s; }
+  .orb.c { width: 22vmax; height: 22vmax; background: var(--orb3); top: 45%; left: 55%; animation-duration: 26s; }
+  @keyframes drift {
+    to { transform: translate(6vmax, -4vmax) scale(1.12); }
+  }
+
+  main { position: relative; z-index: 1; text-align: center; max-width: 40rem; }
+
+  /* The one big moment: name letters rise in one by one */
+  h1 {
+    font-size: clamp(3rem, 12vw, 7rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  h1 .ch {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.6em) rotate(4deg);
+    animation: rise .7s cubic-bezier(.2,.8,.2,1) forwards;
+    animation-delay: calc(var(--i) * 60ms + 150ms);
+  }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+
+  .tagline {
+    margin-top: 1.25rem;
+    font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+    color: var(--muted);
+    opacity: 0;
+    animation: fade .8s ease forwards;
+    animation-delay: 1s;
+  }
+  @keyframes fade { to { opacity: 1; } }
+
+  nav {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .9rem;
+    opacity: 0;
+    animation: fade .8s ease forwards;
+    animation-delay: 1.3s;
+  }
+  nav a {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: .85rem 1.6rem;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    transition: transform .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+  }
+  nav a:hover, nav a:focus-visible {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    transform: translateY(-3px);
+  }
+  nav a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orb { animation: none; }
+    h1 .ch, .tagline, nav { animation: none; opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="orb a" aria-hidden="true"></div>
+  <div class="orb b" aria-hidden="true"></div>
+  <div class="orb c" aria-hidden="true"></div>
+
+  <main>
+    <h1 id="name" aria-label="Your Name">Your Name</h1>
+    <p class="tagline">A short line about what you do.</p>
+    <nav aria-label="Contact and social links">
+      <a href="mailto:you@example.com">Email</a>
+      <a href="https://www.linkedin.com/in/your-handle" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.youtube.com/@your-channel" target="_blank" rel="noopener">YouTube</a>
+    </nav>
+  </main>
+
+  <script>
+    // Split the name into letters so each one can animate in.
+    var h = document.getElementById("name");
+    var text = h.textContent;
+    h.textContent = "";
+    Array.from(text).forEach(function (c, i) {
+      var s = document.createElement("span");
+      s.className = "ch";
+      s.setAttribute("aria-hidden", "true");
+      s.style.setProperty("--i", i);
+      s.textContent = c === " " ? "\u00A0" : c;
+      h.appendChild(s);
+    });
+  </script>
+</body>
+</html>
