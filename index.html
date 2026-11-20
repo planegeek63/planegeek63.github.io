@@ -230,6 +230,17 @@
     100% { stroke-dashoffset: 0; opacity: 1; }
   }
 
+  /* Thin divider between the monogram and the heading */
+  .divider {
+    width: min(14rem, 60%);
+    height: 2px;
+    margin: 0 auto 1.9rem;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .65), transparent);
+    transform: scaleX(0);
+    animation: grow .9s cubic-bezier(.2, .8, .2, 1) 1s forwards;
+  }
+  @keyframes grow { to { transform: scaleX(1); } }
+
   footer {
     position: fixed;
     left: 0;
@@ -250,7 +261,7 @@
   @media (prefers-reduced-motion: reduce) {
     .orb { animation: none !important; }
     dialog[open] .card, dialog[open]::backdrop { animation: none; }
-    h1 .ch, .tagline, nav, .monogram, footer { animation: none; opacity: 1; transform: none; }
+    h1 .ch, .tagline, nav, .monogram, .divider, footer { animation: none; opacity: 1; transform: none; }
     .monogram path { animation: none; stroke-dashoffset: 0; opacity: 1; }
   }
 </style>
@@ -266,6 +277,7 @@
       <path class="p2" pathLength="1" d="M40 24V70C40 88 32 96 22 96C16 96 11 93 9 88"/>
       <path class="p3" pathLength="1" d="M72 96V24L100 66L128 24V96"/>
     </svg>
+    <div class="divider" aria-hidden="true"></div>
     <h1 id="name" aria-label="Hey There">Hey There</h1>
     <p class="tagline">Connect with me below</p>
     <nav aria-label="Contact and social links">
