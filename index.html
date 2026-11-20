@@ -40,9 +40,9 @@
     z-index: 0;
     will-change: transform;
   }
-  .orb.a { width: 38vmax; height: 38vmax; background: var(--orb1); top: -10vmax; left: -8vmax; animation: wander-a 16s ease-in-out infinite; }
-  .orb.b { width: 30vmax; height: 30vmax; background: var(--orb2); bottom: -8vmax; right: -6vmax; animation: wander-b 19s ease-in-out infinite; }
-  .orb.c { width: 22vmax; height: 22vmax; background: var(--orb3); top: 45%; left: 55%; animation: wander-c 13s ease-in-out infinite; }
+  .orb.a { width: 38vmax; height: 38vmax; background: var(--orb1); top: -10vmax; left: -8vmax; animation: wander-a 23s ease-in-out infinite; }
+  .orb.b { width: 30vmax; height: 30vmax; background: var(--orb2); bottom: -8vmax; right: -6vmax; animation: wander-b 23s ease-in-out infinite; }
+  .orb.c { width: 22vmax; height: 22vmax; background: var(--orb3); top: 45%; left: 55%; animation: wander-c 23s ease-in-out infinite; }
 
   /* Each orb follows its own looping path across the whole screen */
   @keyframes wander-a {
@@ -204,24 +204,31 @@
   }
   .close:hover, .close:focus-visible { background: var(--accent); }
 
-  /* JM monogram: flies up from below while fading in */
+  /* JM monogram: one white mark, letters joined by a shared top bar */
   .monogram {
-    width: 5rem;
-    height: 5rem;
+    display: block;
+    width: clamp(6rem, 18vw, 8rem);
+    height: auto;
     margin: 0 auto 1.5rem;
-    border: 2px solid var(--ink);
-    border-radius: 50%;
-    background: rgba(255, 255, 255, .06);
-    display: grid;
-    place-items: center;
-    font-size: 1.8rem;
-    font-weight: 800;
-    letter-spacing: -0.04em;
+    color: #fff;
+    filter: drop-shadow(0 0 1.2rem rgba(255, 255, 255, .2));
     opacity: 0;
-    transform: translateY(5rem);
+    transform: translateY(4rem);
     animation: fly 1.1s cubic-bezier(.2, .8, .2, 1) forwards;
   }
+  .monogram path {
+    stroke-dasharray: 1;
+    animation: trace .9s cubic-bezier(.5, 0, .2, 1) both;
+  }
+  .monogram .p1 { animation-delay: .15s; }
+  .monogram .p2 { animation-delay: .4s; }
+  .monogram .p3 { animation-delay: .65s; }
   @keyframes fly { to { opacity: 1; transform: none; } }
+  @keyframes trace {
+    0%   { stroke-dashoffset: 1; opacity: 0; }
+    2%   { opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 1; }
+  }
 
   footer {
     position: fixed;
@@ -244,6 +251,7 @@
     .orb { animation: none !important; }
     dialog[open] .card, dialog[open]::backdrop { animation: none; }
     h1 .ch, .tagline, nav, .monogram, footer { animation: none; opacity: 1; transform: none; }
+    .monogram path { animation: none; stroke-dashoffset: 0; opacity: 1; }
   }
 </style>
 </head>
@@ -253,7 +261,11 @@
   <div class="orb c" aria-hidden="true"></div>
 
   <main>
-    <div class="monogram" aria-hidden="true">JM</div>
+    <svg class="monogram" viewBox="0 10 140 100" fill="none" stroke="currentColor" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="JM monogram">
+      <path class="p1" pathLength="1" d="M18 24H72"/>
+      <path class="p2" pathLength="1" d="M40 24V70C40 88 32 96 22 96C16 96 11 93 9 88"/>
+      <path class="p3" pathLength="1" d="M72 96V24L100 66L128 24V96"/>
+    </svg>
     <h1 id="name" aria-label="Hey There">Hey There</h1>
     <p class="tagline">Connect with me below</p>
     <nav aria-label="Contact and social links">
@@ -283,8 +295,8 @@
       <button type="button" class="close" aria-label="Close">&times;</button>
       <div class="avatar">J<img src="photo.jpg" alt="Photo of James" onerror="this.remove()"></div>
       <h2 id="about-title">Hi, I'm James</h2>
-      <p>I'm a professional pilot, and I share my travels and flying adventures on my YouTube channel.</p>
-      <p>Come along for the ride, and feel free to reach out using the links on the page.</p>
+      <p>I'm a professional pilot, and I share my travels and adventures on my YouTube channel.</p>
+      <p>Feel free to get in touch with me at the attached links!</p>
     </div>
   </dialog>
 
